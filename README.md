@@ -1,95 +1,125 @@
-# String-Calculator-TDD-Kata.
+Absolutely! Here's a polished and professional `README.md` file tailored for your GitHub repository. It highlights the purpose, features, and usage of your **String Calculator TDD Kata** in JavaScript:
 
-/**
- * String Calculator TDD Kata Implementation
- *
- * This function implements the rules of the classic String Calculator Kata.
- * It is built incrementally following TDD principles.
- *
- * Supported Features:
- *  1. Empty string returns 0
- *  2. A single number returns itself
- *  3. Two numbers (comma separated) return their sum
- *  4. Any amount of numbers are supported
- *  5. Newlines can also be used as delimiters
- *  6. Custom delimiters can be specified using the format: "//[delimiter]\n"
- *  7. Negative numbers throw an exception listing all negatives
- *  8. Numbers larger than 1000 are ignored
- *  9. Delimiters of any length supported using brackets (e.g. //[***]\n)
- * 10. Multiple delimiters supported (e.g. //[*][%]\n)
- * 11. Multiple delimiters of length > 1 supported (e.g. //[**][%%]\n)
- */
+---
 
-function add(numbers) {
-  // Case 1: Empty string → return 0
-  if (!numbers) return 0;
+```markdown
+# 📏 String Calculator TDD Kata (JavaScript)
 
-  // Default delimiters: comma or newline
-  let delimiters = [",", "\n"];
-  let numString = numbers;
+This repository contains an implementation of the **String Calculator TDD Kata**, inspired by [Roy Osherove’s TDD Kata](https://osherove.com/tdd-kata-1).  
+It is designed to help developers practice **Test-Driven Development (TDD)** principles by incrementally building up functionality through small, testable steps.
 
-  // Case 2: Custom delimiter defined at the beginning
-  if (numbers.startsWith("//")) {
-    // Extract the delimiter section (between "//" and the first "\n")
-    const delimiterSection = numbers.substring(2, numbers.indexOf("\n"));
-    // Extract the actual number string (after "\n")
-    numString = numbers.substring(numbers.indexOf("\n") + 1);
+---
 
-    // Case 3: Multiple or multi-character delimiters
-    if (delimiterSection.startsWith("[")) {
-      // Match everything inside [ ... ]
-      const regex = /\[(.*?)\]/g;
-      delimiters = [];
-      let match;
-      while ((match = regex.exec(delimiterSection)) !== null) {
-        delimiters.push(match[1]); // e.g., "***" or "%"
-      }
-    } else {
-      // Case 4: Single character delimiter (e.g., ";")
-      delimiters = [delimiterSection];
-    }
-  }
+## 🧪 Purpose
 
-  // Build a regex that matches ANY of the delimiters
-  const delimiterRegex = new RegExp(
-    delimiters.map(d => escapeRegex(d)).join("|"),
-    "g"
-  );
+The goal of this kata is to reinforce TDD habits by starting with the simplest possible implementation and gradually expanding functionality based on failing tests.  
+Each feature is added only when a test demands it, encouraging clean design and thoughtful refactoring.
 
-  // Split the numbers string using the delimiters
-  const numList = numString.split(delimiterRegex).map(n => parseInt(n, 10));
+---
 
-  // Case 5: Handle negative numbers
-  const negatives = numList.filter(n => n < 0);
-  if (negatives.length > 0) {
-    throw new Error(`negatives not allowed: ${negatives.join(",")}`);
-  }
+## 🚀 Features Implemented
 
-  // Case 6: Ignore numbers > 1000 and sum the rest
-  return numList.reduce((sum, n) => sum + (isNaN(n) || n > 1000 ? 0 : n), 0);
-}
+### ✅ Basic Functionality
+- **Empty string returns 0**
+  ```js
+  add("") === 0
+  ```
+- **Single number returns itself**
+  ```js
+  add("1") === 1
+  ```
+- **Two comma-separated numbers return their sum**
+  ```js
+  add("1,2") === 3
+  ```
 
-/**
- * Utility function: Escape regex special characters
- * Example: "*" → "\*"
- */
-function escapeRegex(str) {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
+### 🔢 Extended Support
+- **Any amount of comma-separated numbers**
+  ```js
+  add("1,2,3,4,5") === 15
+  ```
+- **Newlines as valid delimiters**
+  ```js
+  add("1\n2,3") === 6
+  ```
 
-// -----------------------------------------------------------
-// Example usage (can be used as quick manual tests)
-// -----------------------------------------------------------
-console.log(add(""));                  // 0
-console.log(add("1"));                 // 1
-console.log(add("1,2"));               // 3
-console.log(add("1,2,3,4,5"));         // 15
-console.log(add("1\n2,3"));            // 6
-console.log(add("//;\n1;2"));          // 3
-console.log(add("//[***]\n1***2***3"));// 6
-console.log(add("//[*][%]\n1*2%3"));   // 6
-console.log(add("//[**][%%]\n1**2%%3"));// 6
-console.log(add("1001,2"));            // 2
-// console.log(add("1,-2,3,-5"));      // Throws "negatives not allowed: -2,-5"
+### ✂️ Custom Delimiters
+- **Single-character custom delimiter**
+  ```js
+  add("//;\n1;2") === 3
+  ```
 
-module.exports = { add };
+### ⚠️ Error Handling
+- **Negative numbers throw an exception**
+  ```js
+  add("1,-2,3,-5")
+  // Error: "negatives not allowed: -2,-5"
+  ```
+
+### 🚫 Ignoring Large Numbers
+- **Numbers greater than 1000 are ignored**
+  ```js
+  add("2,1001") === 2
+  ```
+
+### 🧩 Advanced Delimiters
+- **Delimiters of any length**
+  ```js
+  add("//[***]\n1***2***3") === 6
+  ```
+- **Multiple single-character delimiters**
+  ```js
+  add("//[*][%]\n1*2%3") === 6
+  ```
+- **Multiple delimiters of length > 1**
+  ```js
+  add("//[**][%%]\n1**2%%3") === 6
+  ```
+
+---
+
+## 📦 Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/your-username/string-calculator-tdd-kata.git
+cd string-calculator-tdd-kata
+```
+
+Install dependencies (if using a test framework like Jest):
+
+```bash
+npm install
+```
+
+---
+
+## 🧪 Running Tests
+
+If you're using Jest or another test runner, you can run:
+
+```bash
+npm test
+```
+
+---
+
+## 🛠️ Contributing
+
+Feel free to fork the repo, open issues, or submit pull requests to improve the implementation or add new TDD challenges.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+Happy testing! 🧪✨
+```
+
+---
+
+Let me know if you'd like help setting up the test suite or adding badges for build status, coverage, etc. I can also help you write a contribution guide or code of conduct if you're planning to make this collaborative.
