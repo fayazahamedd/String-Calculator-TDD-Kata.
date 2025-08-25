@@ -83,8 +83,7 @@ Each feature is added only when a test demands it, encouraging clean design and 
 Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/string-calculator-tdd-kata.git
-cd string-calculator-tdd-kata
+https://github.com/fayazahamedd/String-Calculator-TDD-Kata.
 ```
 
 Install dependencies (if using a test framework like Jest):
@@ -97,10 +96,8 @@ npm install
 
 ## 🧪 Running Tests
 
-If you're using Jest or another test runner, you can run:
-
 ```bash
-npm test
+node add
 ```
 
 ---
